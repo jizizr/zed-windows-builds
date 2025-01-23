@@ -1,7 +1,6 @@
 name: Build Zed Nightly
 
 on:
-  workflow_dispatch: # Manual trigger
   schedule:
     - cron: "0 0 * * *" # Runs every night at midnight UTC
   workflow_dispatch:
