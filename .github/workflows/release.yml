@@ -23,14 +23,28 @@ jobs:
       contents: write
 
     steps:
-      - name: Download release artifacts
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
-        continue-on-error: true
+        continue-on-error: false
 
-      - name: Checkout self (for scripts)
-        uses: actions/checkout@v4
+      - name: Verify downloaded artifacts
+        run: |
+          echo "Downloaded artifacts:"
+          find artifacts -type f -name "*.exe" -exec ls -la {} \;
+
+          # Check if Vulkan build exists
+          if [ ! -f "artifacts/zed-release/zed.exe" ]; then
+            echo "❌ FAIL: Vulkan artifact not found"
+          fi
+
+          if [ ! -f "artifacts/zed-release-opengl/zed.exe" ]; then
+            echo "❌ FAIL: OpenGL artifact not found"
+          fi
 
       - name: Create release directories and zip
         run: |

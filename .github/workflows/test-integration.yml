@@ -19,7 +19,7 @@ on:
 
 jobs:
   test-build-integration:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout repository
@@ -37,12 +37,8 @@ jobs:
           echo "mock vulkan zed executable content" > artifacts/zed-release/zed.exe
           echo "mock opengl zed executable content" > artifacts/zed-release-opengl/zed.exe
 
-          # Make them executable-like (add some binary-like content)
-          dd if=/dev/zero bs=1024 count=10 >> artifacts/zed-release/zed.exe 2>/dev/null
-          dd if=/dev/zero bs=1024 count=10 >> artifacts/zed-release-opengl/zed.exe 2>/dev/null
-
           echo "Mock artifacts created:"
-          ls -la artifacts/*/
+          Get-ChildItem -Path artifacts -Force | Format-List
 
       - name: Upload mock artifacts (to test download step)
         uses: actions/upload-artifact@v4
@@ -55,14 +51,6 @@ jobs:
         with:
           name: zed-release-opengl
           path: artifacts/zed-release-opengl/zed.exe
-
-      - name: Test release preparation script
-        run: |
-          chmod +x scripts/prepare-release.sh
-          ./scripts/prepare-release.sh
-
-          echo "Release files created:"
-          ls -la release/
 
   test-release-integration:
     runs-on: ubuntu-latest

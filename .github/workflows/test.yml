@@ -2,15 +2,15 @@ name: Test Scripts
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'scripts/**'
-      - '.github/workflows/test.yml'
+      - "scripts/**"
+      - ".github/workflows/test.yml"
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'scripts/**'
-      - '.github/workflows/test.yml'
+      - "scripts/**"
+      - ".github/workflows/test.yml"
   workflow_dispatch:
 
 jobs:
